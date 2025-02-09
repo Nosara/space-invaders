@@ -86,28 +86,43 @@ class GameCanvas extends JPanel implements Runnable, KeyListener {
                 if(enemy.getBounds().intersects(player.getBounds())) {
                     gameState = GameState.GAME_OVER;
                 }
-                if (bullet.getClass() == PlayerBullet.class && bullet.getBounds().intersects(enemy.getBounds())) {
+                if (bullet.getClass() == PlayerBullet.class) {
 
-                    bullets.remove(i);
-                    if(
-                            enemies.get(j).reduceLifePoints() <= 0
-                    ) {
-                        enemies.remove(j);
+                    if( bullet.getBounds().intersects(enemy.getBounds())){
+                        bullets.remove(i);
+                        if(
+                                enemies.get(j).reduceLifePoints() <= 0
+                        ) {
+                            enemies.remove(j);
+                        }
+
+                        i--;
+                        break;
                     }
 
-                    i--;
-                    break;
+                    if(bullet.getBounds().y < enemy.getBounds().y - 100){
+                        bullets.remove(i);
+                        i--;
+                        break;
+                    }
+
                 }
 
-                if(bullet.getClass() == EnemyBullet.class && bullet.getBounds().intersects(player.getBounds())){
-                    gameState = GameState.GAME_OVER;
+                if(bullet.getClass() == EnemyBullet.class ){
+
+                    if(bullet.getBounds().intersects(player.getBounds())){
+                        gameState = GameState.GAME_OVER;
+                    }
+
+
+                    if (bullet.getBounds().y > player.getBounds().y){
+                        bullets.remove(i);
+                        i--;
+                        break;
+                    }
                 }
 
-                if (bullet.getBounds().y > player.getBounds().y){
-                    bullets.remove(i);
-                    i--;
-                    break;
-                }
+
             }
         }
 
