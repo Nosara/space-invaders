@@ -3,11 +3,13 @@ package com.joremadriz.space_invaders.model.enemy;
 import com.joremadriz.space_invaders.model.ObjectPosition;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
 
 @Getter
 @Setter
+@Slf4j
 public abstract class BaseEnemy implements Enemy {
 
     private int width;
@@ -55,7 +57,11 @@ public abstract class BaseEnemy implements Enemy {
 
     @Override
     public int reduceLifePoints() {
-        this.lifePoints = this.lifePoints - 1;
-        return this.lifePoints;
+        log.info("START: Reducing enemy {} lifePoints.", this.getType());
+        log.info("Reducing lifePoints from {}", this.getLifePoints());
+        this.setLifePoints(getLifePoints() - 1);
+        log.info("lifePoints reduced to {}.", this.getLifePoints());
+        log.info("END: Reducing enemy {} lifePoints.", this.getType());
+        return this.getLifePoints();
     }
 }
