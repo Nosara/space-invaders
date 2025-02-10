@@ -3,11 +3,13 @@ package com.joremadriz.space_invaders.model.bullet;
 import com.joremadriz.space_invaders.model.ObjectPosition;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
 
 @Getter
 @Setter
+@Slf4j
 public abstract class BaseBullet implements Bullet {
     private int width;
     private int height;
@@ -25,10 +27,12 @@ public abstract class BaseBullet implements Bullet {
 
     @Override
     public void update() {
-        System.out.println("Updating bullet");
-        int y = getPosition().getY();
-        y = type == BulletType.ENEMY ? y + 5 : y - 5;
-        getPosition().setY(y);
+        log.info("START: Updating bullet's position from {}.", this.getType());
+        int oldYPosition = getPosition().getY();
+        int newYPosition = type == BulletType.ENEMY ? oldYPosition + 5 : oldYPosition - 5;
+        getPosition().setY(newYPosition);
+        log.info("Update bullet position from {} to {}.", oldYPosition, newYPosition);
+        log.info("END: Updating bullet's position from {}.", this.getType());
     }
 
     @Override
