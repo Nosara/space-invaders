@@ -2,6 +2,7 @@ package com.joremadriz.space_invaders.game;
 
 import com.joremadriz.space_invaders.common.GameState;
 import com.joremadriz.space_invaders.controller.CollisionDetector;
+import com.joremadriz.space_invaders.controller.GameRenderer;
 import com.joremadriz.space_invaders.model.Player;
 import com.joremadriz.space_invaders.model.bullet.Bullet;
 import com.joremadriz.space_invaders.model.bullet.BulletFactory;
@@ -88,47 +89,7 @@ class GameCanvas extends JPanel implements Runnable, KeyListener {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-
-        if (gameState == GameState.MENU) {
-            drawMenu(g);
-        } else if (gameState == GameState.PLAYING) {
-            drawGame(g);
-        } else if( gameState == GameState.GAME_OVER) {
-            drawGameOver(g);
-        }
-    }
-
-    private void drawMenu(Graphics g) {
-        g.setColor(Color.BLACK);
-        g.fillRect(0, 0, getWidth(), getHeight());
-
-        g.setColor(Color.WHITE);
-        g.setFont(new Font("Arial", Font.BOLD, 36));
-        g.drawString("SPACE INVADERS", 250, 200);
-
-        g.setFont(new Font("Arial", Font.PLAIN, 24));
-        g.drawString("Press ENTER to Start", 280, 300);
-    }
-
-    private void drawGame(Graphics g) {
-        g.setColor(Color.BLACK);
-        g.fillRect(0, 0, getWidth(), getHeight());
-
-        player.draw(g);
-        bullets.forEach(bullet -> bullet.draw(g));
-
-        enemies.forEach(enemy -> enemy.draw(g));
-    }
-
-    private void drawGameOver(Graphics g){
-        g.setColor(Color.RED);
-        g.fillRect(0, 0, getWidth(), getHeight());
-
-        g.setColor(Color.WHITE);
-        g.setFont(new Font("Ariel", Font.BOLD, 36));
-        g.drawString("GAME OVER!", 250, 200);
-        g.setFont(new Font("Arial", Font.PLAIN, 24));
-        g.drawString("Press ENTER to return to Menu", 280, 300);
+        GameRenderer.render(g, gameState, player, enemies, bullets, this);
     }
 
     public void startGame() {
